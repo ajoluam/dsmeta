@@ -17,7 +17,11 @@ public class SalesService {
 	@Autowired
 	private SalesRepository repository;
 	
-	public Page<Sale> findSales(LocalDate min, LocalDate max, Pageable pageable) {
+	public Page<Sale> findSales(String minDate, String maxDate, Pageable pageable) {
+		LocalDate min = minDate.equals("") ? LocalDate.now().minusYears(1L) : LocalDate.parse(minDate);
+		LocalDate max = maxDate.equals("") ? LocalDate.now() : LocalDate.parse(maxDate);
+
+
 		return repository.findSales(min, max, pageable);
 	}
 	

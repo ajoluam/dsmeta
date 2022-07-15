@@ -1,6 +1,5 @@
 package com.devsuperior.dsmeta.controller;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.devsuperior.dsmeta.entities.Sale;
 import com.devsuperior.dsmeta.service.SalesService;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 
 @RestController
 @RequestMapping(value="sales")
@@ -24,10 +22,11 @@ public class SalesController {
 	
 	@GetMapping(value = "page")
 	public Page<Sale> findSales (
-			@RequestParam(name = "dataMinima") String min, 
-			@RequestParam(name = "dataMaxima") String max) {
+			@RequestParam(value = "dataMinima", defaultValue = "") String minDate,
+			@RequestParam(value = "dataMaxima", defaultValue = "") String maxDate,
+			Pageable pageable) {
 		
-		return service.findSales(LocalDate.parse(min), LocalDate.parse(max), Pageable.unpaged());
+		return service.findSales(minDate, maxDate, pageable);
 		
 	}
 	
